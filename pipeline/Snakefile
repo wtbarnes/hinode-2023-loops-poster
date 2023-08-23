@@ -1,0 +1,32 @@
+import pathlib
+
+DATA_DIR = pathlib.Path('data')
+
+configfile: "config.yml"
+
+rule download_eis_data:
+    output:
+        directory(DATA_DIR / 'EIS' / 'level_1')
+    script:
+        "download_eis_data.py"
+
+rule fit_eis_data:
+    input:
+        DATA_DIR / 'EIS' / 'level_1'
+    output:
+        directory(DATA_DIR / 'EIS' / 'level_2')
+    script:
+        "fit_eis_data.py"
+
+rule correct_eis_pointing:
+    input:
+        DATA_DIR / 'EIS' / 'level_2'
+    output:
+        directory(DATA_DIR / 'EIS' / 'level_2.5')
+    script:
+        "correct_eis_pointing.py"
+
+rule stack_aia_data:
+    input:
+    output:
+    script:
