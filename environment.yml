@@ -1,0 +1,15 @@
+name: hinode-2023-loops-poster
+channels:
+- conda-forge
+dependencies:
+- python
+- pip
+- pip:
+  - snakemake
+  - sunpy[all]
+  - ndcube
+  - aiapy
+  - eispac
+  - sunkit-image
+  - ipykernel
+  - fiasco
