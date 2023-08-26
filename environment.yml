@@ -13,3 +13,6 @@ dependencies:
   - sunkit-image
   - ipykernel
   - fiasco
+  - boto3
+  - s3fs
+  - distributed

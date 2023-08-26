@@ -1,6 +1,7 @@
 import pathlib
 
 DATA_DIR = pathlib.Path('data')
+AIA_CHANNELS = ['94', '131', '171', '193', '211', '335']
 
 configfile: "config.yml"
 
@@ -28,5 +29,29 @@ rule correct_eis_pointing:
 
 rule stack_aia_data:
     input:
+        DATA_DIR / 'EIS' / 'level_2.5'
     output:
+        directory(DATA_DIR / 'AIA' / 'level_2' / '{channel}')
+    params:
+        channel=lambda wildcards: int(wildcards.channel)
     script:
+        "stack_aia_data.py"
+        
+rule trace_loop_aia:
+    input:
+        expand(DATA_DIR / 'AIA' / 'level_2' / '{channel}', channel=AIA_CHANNELS)
+    output:
+        DATA_DIR / 'AIA' / 'loop_cutouts.nc'
+    params:
+        channels=AIA_CHANNELS
+    script:
+        "trace_loop_aia.py"
+        
+rule trace_loop_eis:
+    input:
+        DATA_DIR / 'EIS' / 'level_2.5'
+    output:
+        DATA_DIR / 'EIS' / 'loop_cutouts.nc'
+    script:
+        "trace_loop_eis.py"
+        
