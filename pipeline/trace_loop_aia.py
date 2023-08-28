@@ -30,14 +30,15 @@ if __name__ == '__main__':
         )
         s_parallel, s_perp, indices = straight_loop_indices(traced_loop, loop_width, cube[0].wcs)
         time = (cube.axis_world_coords(0)[0] - cube.axis_world_coords(0)[0][0])
+        coords={
+            'time': time.to_value('s'),
+            's_parallel': s_parallel.to_value('arcsec'),
+            's_perp': s_perp.to_value('arcsec'),
+        }
         straight_loop = xarray.DataArray(
             cube.data[:, indices[..., 1], indices[..., 0]],
             dims=['time', 's_parallel', 's_perp'],
-            coords={
-                'time': time.to_value('s'),
-                's_parallel': s_parallel.to_value('arcsec'),
-                's_perp': s_perp.to_value('arcsec'),
-            },
+            coords=coords,
             attrs={**cube.meta,
                    's_parallel_unit': 'arcsec',
                    's_perp_unit': 'arcsec',
@@ -46,5 +47,5 @@ if __name__ == '__main__':
         )
         data_arrays[channel] = straight_loop
 
-    data_set = xarray.Dataset(data_arrays)
+    data_set = xarray.Dataset(data_arrays, coords=coords)
     data_set.to_netcdf(snakemake.output[0])

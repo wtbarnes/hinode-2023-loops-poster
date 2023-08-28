@@ -25,14 +25,15 @@ if __name__ == '__main__':
     data_arrays = {}
     for m in eis_maps:
         s_parallel, s_perp, indices = straight_loop_indices(traced_loop, loop_width, m.wcs)
+        coords={
+            's_parallel': s_parallel.to_value('arcsec'),
+            's_perp': s_perp.to_value('arcsec'),
+        }
         m.meta.pop('keycomments')  # cannot serialize dicts to netcdf
         straight_loop = xarray.DataArray(
             m.data[indices[..., 1], indices[..., 0]],
             dims=['s_parallel', 's_perp'],
-            coords={
-                's_parallel': s_parallel.to_value('arcsec'),
-                's_perp': s_perp.to_value('arcsec'),
-            },
+            coords=coords,
             attrs={**m.meta,
                    's_parallel_unit': 'arcsec',
                    's_perp_unit': 'arcsec'},
@@ -40,5 +41,5 @@ if __name__ == '__main__':
         )
         data_arrays[f'{m.meta["line_id"]}_{m.measurement}'] = straight_loop
 
-    data_set = xarray.Dataset(data_arrays)
+    data_set = xarray.Dataset(data_arrays, coords=coords)
     data_set.to_netcdf(snakemake.output[0])
