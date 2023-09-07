@@ -55,3 +55,12 @@ rule trace_loop_eis:
     script:
         "trace_loop_eis.py"
         
+rule remove_background:
+    input:
+        DATA_DIR / '{instrument}' / 'loop_cutouts.nc'
+    output:
+        DATA_DIR / '{instrument}' / 'loop_cutouts_no_background.nc'
+    script:
+        "subtract_background.py"
+
+        
