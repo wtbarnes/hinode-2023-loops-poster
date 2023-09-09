@@ -1,4 +1,5 @@
 import pathlib
+from glob import glob
 
 DATA_DIR = pathlib.Path('data')
 AIA_CHANNELS = ['94', '131', '171', '193', '211', '335']
@@ -26,6 +27,21 @@ rule correct_eis_pointing:
         directory(DATA_DIR / 'EIS' / 'level_2.5')
     script:
         "correct_eis_pointing.py"
+        
+rule download_xrt_data:
+    output:
+        directory(DATA_DIR / 'XRT' / 'level_2')
+    script:
+        "download_xrt_data.py"
+        
+rule correct_xrt_pointing:
+    input:
+        DATA_DIR / 'XRT' / 'level_2',
+        DATA_DIR / 'EIS' / 'level_2.5'
+    output:
+        directory(DATA_DIR / 'XRT' / 'level_2.5')
+    script:
+        "correct_xrt_pointing.py"
 
 rule stack_aia_data:
     input:
@@ -47,13 +63,16 @@ rule trace_loop_aia:
     script:
         "trace_loop_aia.py"
         
-rule trace_loop_eis:
+rule trace_loop_hinode:
     input:
-        DATA_DIR / 'EIS' / 'level_2.5'
+        DATA_DIR / '{instrument}' / 'level_2.5',
+        DATA_DIR / 'AIA' / 'level_2' / '171'
     output:
-        DATA_DIR / 'EIS' / 'loop_cutouts.nc'
+        DATA_DIR / '{instrument}' / 'loop_cutouts.nc'
+    wildcard_constraints:
+        instrument=r"\b(XRT|EIS)\b"
     script:
-        "trace_loop_eis.py"
+        "trace_loop_hinode.py"
         
 rule remove_background:
     input:
@@ -63,4 +82,3 @@ rule remove_background:
     script:
         "subtract_background.py"
 
-        

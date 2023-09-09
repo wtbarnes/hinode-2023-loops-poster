@@ -22,10 +22,6 @@ if __name__ == '__main__':
     ds = xarray.open_dataset(snakemake.input[0])
     data_arrays = {}
     for k in ds.keys():
-        # NOTE: This is for the EIS datasets. We only want to apply background
-        # subtraction to the intensities, not the velocities.
-        if 'velocity' in k:
-            continue
         data_arrays[k] = subtract_background(ds[k], threshold=0.0)
     
     ds_no_bg = xarray.Dataset(data_arrays)

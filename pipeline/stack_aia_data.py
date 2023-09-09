@@ -28,6 +28,8 @@ import eispac.core
 from net.heliocloud import HelioCloudClient
 import net.attrs as heliocloud_attrs
 
+AIA_SCALE = [0.6,  0.6]* u.arcsec / u.pix
+
 
 def get_header(filename):
     with astropy.io.fits.open(filename, use_fsspec=True, fsspec_kwargs={'anon': True}, lazy_load_hdus=True) as hdul:
@@ -130,18 +132,18 @@ if __name__ == '__main__':
     
     # Build target header
     m_eis_ref = sunpy.map.Map(list(eis_level_2_5_dir.glob('*.fe_12_195_119.2c-0.int.fits')))
-    aia_scale = [0.6,  0.6]* u.arcsec / u.pix
     extent = u.Quantity(m_eis_ref.dimensions) * u.Quantity(m_eis_ref.scale)
-    shape = tuple(np.ceil(extent / aia_scale).to_value('pix').astype(int)[::-1])
+    shape = tuple(np.ceil(extent / AIA_SCALE).to_value('pix').astype(int)[::-1])
     ref_header = make_fitswcs_header(shape,
                                      m_eis_ref.center,
-                                     scale=aia_scale,
+                                     scale=AIA_SCALE,
                                      rotation_angle=0*u.deg,
                                      wavelength=channel,
                                      instrument='AIA',
                                      telescope='SDO/AIA',
                                      observatory='SDO',
-                                     detector='AIA')
+                                     detector='AIA',
+                                     unit=u.Unit('ct/s'))
     
     # Get common time
     cadence = 4 * u.minute
@@ -164,5 +166,4 @@ if __name__ == '__main__':
                              overwrite=True)
     ds.attrs['wcs'] = cutout_cube.wcs.to_header_string()
     ds.attrs['meta'] = ref_header
-    ds.attrs['unit'] = cutout_cube.unit
     ds[:] = cutout_cube.data.compute()

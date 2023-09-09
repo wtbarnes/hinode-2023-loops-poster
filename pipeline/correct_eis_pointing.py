@@ -7,8 +7,10 @@ from aiapy.calibrate import register, update_pointing
 from sunkit_image.coalignment import _calculate_shift as calculate_shift
 from eispac.core import EISMap
 
+__all__ = ['shift_pointing', 'cross_correlate_with_aia']
 
-def shift_eis_pointing(m_eis, ref_coord):
+
+def shift_pointing(m_eis, ref_coord):
     """
     Given a reference coordinate that corresponds to corrected lower
     left corner of the EIS map, shift the pointing of the EIS map.
@@ -18,7 +20,7 @@ def shift_eis_pointing(m_eis, ref_coord):
     return m_eis.shift_reference_coord(shift_x, shift_y)
 
 
-def cross_correlate_eis_aia(m_eis, m_aia):
+def cross_correlate_with_aia(m_eis, m_aia):
     """
     Calculate cross-correlation between EIS and AIA data and find the
     bottom left coordinate of the EIS map in the coordinate system of
@@ -72,9 +74,9 @@ if __name__ == '__main__':
     m_aia_ref = sunpy.map.Map(aia_file)
     m_aia_ref = register(update_pointing(m_aia_ref))
     # Cross-correlate 193 and 195.119 observations
-    ref_coord = cross_correlate_eis_aia(m_eis_ref, m_aia_ref)
+    ref_coord = cross_correlate_with_aia(m_eis_ref, m_aia_ref)
     # Correct all EIS observations
-    eis_maps_fixed = [shift_eis_pointing(m, ref_coord) for m in eis_maps]
+    eis_maps_fixed = [shift_pointing(m, ref_coord) for m in eis_maps]
     # Save out EIS maps
     fixed_dir = pathlib.Path(snakemake.output[0])
     fixed_dir.mkdir(exist_ok=True)

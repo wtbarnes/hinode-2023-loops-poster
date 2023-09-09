@@ -25,7 +25,6 @@ if __name__ == '__main__':
         cube = ndcube.NDCube(
             ds[:],
             wcs=astropy.wcs.WCS(ds.attrs['wcs']),
-            unit=ds.attrs['unit'],
             meta=ds.attrs['meta'],
         )
         s_parallel, s_perp, indices = straight_loop_indices(traced_loop, loop_width, cube[0].wcs)
