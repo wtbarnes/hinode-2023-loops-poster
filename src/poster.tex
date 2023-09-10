@@ -1,0 +1,163 @@
+% Gemini theme
+% https://github.com/anishathalye/gemini
+
+\documentclass[final]{beamer}
+
+% ====================
+% Packages
+% ====================
+
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[size=custom,width=76.2,height=152.4,scale=1.0]{beamerposter}
+\usetheme{gemini}
+\usecolortheme{asteroidcity3}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.14}
+\usepackage{anyfontsize}
+\usepackage{multicol}
+\usepackage[numbers]{natbib}
+
+% ====================
+% Lengths
+% ====================
+
+% If you have N columns, choose \sepwidth and \colwidth such that
+% (N+1)*\sepwidth + N*\colwidth = \paperwidth
+\newlength{\sepwidth}
+\newlength{\colwidth}
+\setlength{\sepwidth}{0.0167\paperwidth}
+\setlength{\colwidth}{0.45\paperwidth}
+\newcommand{\separatorcolumn}{\begin{column}{\sepwidth}\end{column}}
+
+% ====================
+% Title
+% ====================
+\title{Observational Constraints on Models of Energy Release in Long-lived Active Region Loops}
+\author{
+  W. T. Barnes \inst{1}\textsuperscript{,}\inst{2} \and
+  H. P. Warren \inst{3} \and
+  J. W. Reep \inst{3}
+}
+\institute[]{
+  \inst{1} Department of Physics, American University \samelineand
+  \inst{2} Heliophysics Science Division, NASA Goddard Space Flight Center \and
+  \inst{3} Space Science Division, Naval Research Laboratory
+}
+
+% ====================
+% Footer (optional)
+% ====================
+\footercontent{
+  \href{https://github.com/wtbarnes/hinode-2023-loops-poster}{github.com/wtbarnes/hinode-2023-loops-poster} \hfill
+  Hinode-16/IRIS-13 --- Niigata, Japan --- 25--29 September 2023 \hfill
+  \href{mailto:wbarnes@american.edu}{wbarnes@american.edu}
+}
+
+% ====================
+% Logo (optional)
+% ====================
+\logoright{\includegraphics[height=8cm]{static/AU_stacked_logo.png}}
+\logoleft{\includegraphics[height=10cm]{static/sunpy_logo_portrait_powered.png}}
+
+% ====================
+% Body
+% ====================
+
+\begin{document}
+
+\begin{frame}[t]
+\begin{columns}[t]
+\separatorcolumn
+
+\begin{column}{\colwidth}
+
+  \begin{block}{Introduction}
+
+    \citet{lenz_temperature_1999,patsourakos_inability_2004}
+
+  \end{block}
+
+  \begin{block}{NOAA AR 1575 Oberved by AIA, EIS, and XRT}
+
+  \end{block}
+
+  \begin{alertblock}{Isolating Loop Structures}
+
+  \end{alertblock}
+
+  \begin{block}{Density Diagnostics}
+
+  \end{block}
+
+  \begin{block}{Filter Ratio}
+
+  \end{block}
+
+
+
+\begin{block}{Differential Emission Measure}
+
+\end{block}
+
+\begin{block}{Time Lag Analysis}
+\end{block}
+
+\end{column}
+
+\separatorcolumn
+
+\begin{column}{\colwidth}
+
+  \begin{block}{Constraining Loop Geometries}
+    
+  \end{block}
+
+  \begin{block}{Hydrodynamic Modeling}
+  \end{block}
+
+  \begin{block}{Synthetic Observables}
+
+  \end{block}
+
+  \begin{alertblock}{Assessing Heating Models}
+
+    \begin{table}
+      \centering
+      \begin{tabular}{l r r c}
+        \toprule
+        \textbf{First column} & \textbf{Second column} & \textbf{Third column} & \textbf{Fourth} \\
+        \midrule
+        Foo & 13.37 & 384,394 & $\alpha$ \\
+        Bar & 2.17 & 1,392 & $\beta$ \\
+        Baz & 3.14 & 83,742 & $\delta$ \\
+        Qux & 7.59 & 974 & $\gamma$ \\
+        \bottomrule
+      \end{tabular}
+      \caption{A table caption.}
+    \end{table}
+
+  \end{alertblock}
+
+  \begin{block}{Conclusions}
+    
+  \end{block}
+
+  \begin{block}{References}
+    \scriptsize
+    \begin{multicols}{2}
+      \bibliographystyle{aasjournal.bst}
+      \bibliography{references.bib}
+    \end{multicols}
+  \end{block}
+
+\end{column}
+
+\separatorcolumn
+\end{columns}
+\end{frame}
+
+\end{document}
