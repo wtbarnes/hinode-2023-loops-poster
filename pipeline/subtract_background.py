@@ -23,6 +23,7 @@ if __name__ == '__main__':
     data_arrays = {}
     for k in ds.keys():
         data_arrays[k] = subtract_background(ds[k], threshold=0.0)
+        data_arrays[k].attrs = ds[k].attrs
     
     ds_no_bg = xarray.Dataset(data_arrays)
     ds_no_bg.to_netcdf(snakemake.output[0])
