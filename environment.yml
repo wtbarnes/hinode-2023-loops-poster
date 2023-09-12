@@ -10,9 +10,12 @@ dependencies:
   - ndcube
   - aiapy
   - eispac
+  - xrtpy
   - sunkit-image
-  - ipykernel
   - fiasco
+  - demcmc
   - boto3
   - s3fs
   - distributed
+  - ipykernel
+  - git+https://github.com/wtbarnes/synthesizAR.git

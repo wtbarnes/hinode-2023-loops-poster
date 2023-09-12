@@ -1,3 +1,5 @@
+*.pgf
+*.png
 src/poster.pdf
 data/
 .snakemake

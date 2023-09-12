@@ -1,0 +1,22 @@
+axes.titlesize: 14
+axes.labelsize: 14
+legend.fontsize: 12
+legend.frameon: false
+xtick.labelsize: 12
+ytick.labelsize: 12
+xtick.major.pad: 3
+xtick.minor.pad: 3
+ytick.major.pad: 3
+ytick.minor.pad: 3
+xtick.direction: in
+ytick.direction: in
+savefig.bbox: tight
+lines.linewidth: 2
+patch.linewidth: 2
+font.family: sans-serif
+font.serif: 
+font.sans-serif: 
+font.monospace: 
+text.usetex: true
+pgf.rcfonts: false
+pgf.texsystem: lualatex

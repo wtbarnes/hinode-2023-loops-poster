@@ -9,7 +9,7 @@
 
 \usepackage[T1]{fontenc}
 \usepackage{lmodern}
-\usepackage[size=custom,width=76.2,height=152.4,scale=1.0]{beamerposter}
+\usepackage[size=custom,width=76.2,height=167.64,scale=1.0]{beamerposter}
 \usetheme{gemini}
 \usecolortheme{asteroidcity3}
 \usepackage{graphicx}
@@ -20,6 +20,9 @@
 \usepackage{anyfontsize}
 \usepackage{multicol}
 \usepackage[numbers]{natbib}
+\usepackage{import}
+\usepackage{siunitx}
+\usepackage{float}
 
 % ====================
 % Lengths
@@ -32,6 +35,7 @@
 \setlength{\sepwidth}{0.0167\paperwidth}
 \setlength{\colwidth}{0.45\paperwidth}
 \newcommand{\separatorcolumn}{\begin{column}{\sepwidth}\end{column}}
+\setlength\abovecaptionskip{-3pt}
 
 % ====================
 % Title
@@ -77,34 +81,98 @@
 
   \begin{block}{Introduction}
 
-    \citet{lenz_temperature_1999,patsourakos_inability_2004}
+    \begin{itemize}
+      \item Long "warm" EUV loops on periphery of active regions (ARs) observed to:
+      \begin{itemize}
+        \item Be \alert{approximately steady}, lasting much longer than a cooling time
+        \item Have \alert{narrow, nearly isothermal emission measure distributions centered near \SI{1}{\mega\kelvin}} \citep{aschwanden_three-dimensional_1999,aschwanden_evidence_2000}
+        \item Be \alert{overdense} compared to densities expected from hydrostatic scaling laws \citep{winebarger_transition_2003}
+        \item Have \alert{flat temperature structures} as determined by the \SI{195}{\angstrom}/\SI{171}{\angstrom} filter ratio \citep{aschwanden_three-dimensional_1999,lenz_temperature_1999}
+      \end{itemize}
+      \item \textbf{\alert{Problem:}} hydrostatic models fail to produce sufficiently high densities while impulsive heating scenarios lead to overly broad temperature distributions
+      \item \textbf{\alert{Goal:}} Constrain observational properties of long warm loops spatially, temporally and over a broad range of temperatures and wavelengths
+      \item \textbf{\alert{Goal:}} Constrain possible time-independent heating scenarios by comparing forward-modeled observables from field-aligned hydrodynamic models to observational diagnostics
+    \end{itemize}
 
   \end{block}
 
   \begin{block}{NOAA AR 1575 Oberved by AIA, EIS, and XRT}
 
+    \begin{columns}[c]
+      \begin{column}{0.35\colwidth}
+        \begin{itemize}
+          \item EIS raster started 2012-09-24 10:50:26 and ended 2012-09-24 13:56:09
+          \item XRT synoptic data available for 2012-09-24 10:03
+          \item AIA data selected between 2012-09-24 09:00:00 and 2012-09-24 21:00:00
+          \item Fit 38 lines in each pixel of EIS raster to derive intensity and velocity using \texttt{eispac} \citep{weberg_eispac_2023}
+          \item Align AIA EUV images to EIS FOV, normalizing by exposure time and correcting for degradation using \texttt{aiapy} \citep{barnes_aiapy_2020} 
+        \end{itemize}
+      \end{column}
+      \begin{column}{0.65\colwidth}
+        \begin{figure}[H]
+          \centering
+          \import{figures/}{ar_maps.pgf}
+          \caption{NOAA AR 1575 as observed on 2012-09-24 by SDO/AIA (top row), \textit{Hinode}/EIS (bottom left) and \textit{Hinode}/XRT (bottom right). The red dots and black lines denote the manually-identified loop.}
+          \label{fig:ar_maps}
+        \end{figure}
+      \end{column}
+    \end{columns}
+
   \end{block}
 
-  \begin{alertblock}{Isolating Loop Structures}
+  \begin{block}{Isolating Loop Structures}
+    \begin{itemize}
+      \item Manually identify points in time-averaged MGN-filtered \SI{171}{\angstrom} images that fall within EIS FOV and persist for $\approx\SI{12}{\hour}$.
+      \item Create 2D pixel mask from each image assuming a loop width of \SI{45}{\arcsecond} with dimensions corresponding to the loop-aligned ($s_\parallel$) and cross-loop ($s_\perp$) directions.
+      \item To further isolate loop structure, compute linear background model from emission at $s_\perp=\SI{0}{\arcsecond},\SI{45}{\arcsecond}$
+    \end{itemize}
+    \vspace{-50pt}
+    \begin{figure}[H]
+      \centering
+      \import{figures/}{straightened_loops.pgf}
+      \caption{Background-subtracted ``straightened'' loops as a function of $s_\parallel$ and $s_\perp$ as extracted from each image in \autoref{fig:ar_maps}. pixels are masked white if they fall below the background.}
+      \label{fig:straightened_loops}
+    \end{figure}
 
-  \end{alertblock}
-
+  \end{block}
+  \vspace{-30px}
   \begin{block}{Density Diagnostics}
 
+    \begin{itemize}
+      \item Use method of \citet{young_high-precision_2009} to derive density from Fe XII \SI{186.880/195.119}{\angstrom} and Fe XIII \SI{203.826/202.044}{\angstrom} line pairs as observed by EIS
+      \item Density structure approximately flat as a function of $s_\parallel$, both density distributions peaked at $\approx\SI{1e9}{\per\cm\cubed}$
+    \end{itemize}
+    \vspace{-50pt}
+    \begin{figure}
+      \centering
+      \import{figures/}{density_diagnostics.pgf}
+      \caption{Derived density from the Fe XII (top row) and Fe XIII (second row) line ratios. \textbf{Bottom left:} panel shows the theoretical line ratio as a function of density for the Fe XII and XIII line pairs. \textbf{Bottom right:} Distribution of densities from the maps in the first two rows.}
+      \label{fig:density_diagnostic}   
+    \end{figure}
+
   \end{block}
+  \vspace{-30pt}
+  \begin{block}{Temperature Diagnostics}
 
-  \begin{block}{Filter Ratio}
+    \heading{Filter Ratio}
+    \vspace{-50pt}
+    \begin{figure}[H]
+      \centering
+      \import{figures/}{temperature_diagnostics.pgf}
+      \caption{Temperature as derived from the ratio of the \SI{193}{\angstrom} and \SI{171}{\angstrom} filters. \textbf{Top:} Time-averaged temperature as a function of $s_\parallel,s_\perp$. \textbf{Middle:} Temperature averaged over $s_\perp$ as a function of the \SI{12}{\hour} AIA observing window. \textbf{Bottom:} Time- and $s_\perp$-averaged temperature. The shaded region denotes $1\sigma$ of the distribution of temperatures in time and $s_\perp$.}
+      \label{fig:filter_ratio}
+    \end{figure}
+    \vspace{-30pt}
+    \heading{Differential Emission Measure Inversion}
+    \vspace{-50pt}
+    \begin{figure}[H]
+      \centering
+      \import{figures/}{dem.pgf}
+      \caption{\textbf{Left:} Contribution functions for all observed EIS lines and temperature response functions for several filters from AIA and XRT. \textbf{Right:} EM \textit{loci} curves and inverted emission measure distribution (black) computed using the MCMC method of \citet{kashyap_markov-chain_1998}. The intensities are averaged in $s_\parallel$ and the value of $s_\perp$ is chosen where the Fe XII \SI{195.119}{\angstrom} intensity is maximized.}
+      \label{fig:dem_observed}
+    \end{figure}
 
   \end{block}
-
-
-
-\begin{block}{Differential Emission Measure}
-
-\end{block}
-
-\begin{block}{Time Lag Analysis}
-\end{block}
 
 \end{column}
 
@@ -112,42 +180,160 @@
 
 \begin{column}{\colwidth}
 
+  \begin{block}{Time Lag Analysis}
+
+    \begin{itemize}
+      \item Apply time-lag analysis method of \citet{viall_evidence_2012,barnes_understanding_2019} to understand cooling patterns along loop.
+      \item Spatially coherent positive time lags in the 193-171 and 211-193 indicate cooling between around \SI{2}{\mega\K} to just below \SI{1}{\mega\K}
+      \item Incoherent time lags in 335-211 indicate little coherent evolution above \SI{2}{\mega\K}
+      \item Zero time lags in 171-131 indicate no cooling below \SI{0.5}{\mega\K}
+    \end{itemize}
+
+    \begin{figure}
+      \centering
+      \import{figures/}{time_lags.pgf}
+      \caption{Time lag analysis of the non-background-subtracted traced loops for four different AIA channel pairs. The value of each pixel denotes the time lag, in seconds, that maximizes the cross-correlation between the two channels.}
+      \label{fig:timelags}
+    \end{figure}
+  
+  \end{block}
+
   \begin{block}{Constraining Loop Geometries}
+
+    \begin{columns}[b]
+      \begin{column}{0.5\colwidth}
+        \centering
+        \begin{itemize}
+          \item Compute PFSS solution from HMI synoptic magnetogram
+          \item Select fieldlines coincident with EUV loops to constrain $B(s)$, $g_\odot(s)$, and area expansion ($1/B(s)$)
+        \end{itemize}
+        \begin{figure}
+          \centering
+          \includegraphics[width=0.5\colwidth]{figures/tmp_modeling/aia-171-with-loops.pdf}
+          \caption{AIA \SI{171}{\angstrom} with field lines from a PFSS model overlaid that most closely intersect with the manually traced loop.}
+          \label{fig:aia_fieldlines_overlaid}
+        \end{figure}
+      \end{column}
+      \begin{column}{0.5\colwidth}
+        \begin{figure}
+          \centering
+          \includegraphics[width=0.5\colwidth]{figures/tmp_modeling/bundle_b_field_expansion.pdf}
+          \caption{\textbf{Top:} Magnetic field strength as a function of $s$ for each model fieldline. The solid line denotes the average over all fieldlines. \textbf{Bottom}: Area expansion derived from the inverse of the average magnetic field strength.}
+          \label{fig:b_field_bundle}
+        \end{figure}
+      \end{column}
+    \end{columns}
     
   \end{block}
 
   \begin{block}{Hydrodynamic Modeling}
+    \begin{columns}[c]
+      \begin{column}{0.4\colwidth}
+        \begin{itemize}
+          \item Calculate thermodynamic structure as a function of $s$ using the HYDRAD model \citep{bradshaw_self-consistent_2003,bradshaw_influence_2013}
+          \item Volumetric heating can be parameterized as a function of location $s_0$ and scale height $s_H$, \begin{equation*}
+            E = \sum_i E_{0,i} \exp \left[-\frac{(s-s_{i,0})^2}{2s_H^2}\right]
+          \end{equation*}
+          \item Motivated by steady appearance of loops, the energy deposition is steady in all cases
+        \end{itemize}
+      \end{column}
+      \begin{column}{0.6\colwidth}
+        \begin{table}
+          \begin{tabular}{ccccc}
+            \toprule
+            Run & $s_H$ & $E_{0,L}$ & $E_{0,R}$ & Expansion? \\
+                & Mm & erg cm$^{-3}$ s$^{-1}$ & erg cm$^{-3}$ s$^{-1}$ &  \\
+            \midrule
+            1 & $\infty$ & 8.7e-06 & 8.7e-06 & No \\
+            2 & $\infty$ & 8.7e-06 & 8.7e-06 & Yes \\
+            3 & 3.32 & 0.002 & 0.002 & Yes \\
+            4 & 3.32 & 0 & 0.004 & No \\
+            5 & 3.32 & 0 & 0.004 & Yes \\
+            \bottomrule
+          \end{tabular}
+        \end{table}          
+      \end{column}
+    \end{columns}
   \end{block}
 
   \begin{block}{Synthetic Observables}
+    \heading{Temperature and Density Structure}
+
+    \begin{columns}[c]
+      \begin{column}{0.5\colwidth}
+        \begin{figure}
+          \centering
+          \includegraphics[width=0.5\colwidth]{figures/tmp_modeling/model-density-comparison.pdf}
+          \caption{Temperature (top) and density (bottom) as a function of field-aligned coordinate for each heating scenario.}
+          \label{fig:temperature_density_profiles}
+        \end{figure}
+      \end{column}
+      \begin{column}{0.5\colwidth}
+        \begin{itemize}
+          \item In all runs except Run 3, simulation reaches steady state and take final timestamp. 
+          \item In Run 3, all simulation to run until the condensation formation cycle is periodic due to TNE
+          \item TNE (Run 3) leads to the flattest temperature profile
+          \item Including field-aligned expansion (Runs 2,3,5) increases density across the loop structure
+        \end{itemize}
+      \end{column}
+    \end{columns}
+
+    \heading{Emission Measure Distribution}
+
+    \begin{columns}[c]
+      \begin{column}{0.5\colwidth}
+        \begin{itemize}
+          \item $\mathrm{EM}(T)$ distributions derived by binning the temperatures $\pm\SI{100}{\mega\m}$ of apex, and weighted by $n^2$. \item In Run 3, average over 1 TNE cycle period to capture the temperature evolution of the condensation formation.
+          \item All runs show relatively isothermal $\mathrm{EM}(T)$ except Run 3
+          \item TNE leads to broad $\mathrm{EM}(T)$ but no emission above the peak of the $\mathrm{EM}(T)$
+        \end{itemize}
+      \end{column}
+      \begin{column}{0.5\colwidth}
+        \begin{figure}
+          \includegraphics[width=0.5\colwidth]{figures/tmp_modeling/model-dem-comparison.pdf}
+          \label{fig:model_dem}
+          \caption{Emission measure distribution for each heating scenario.}
+        \end{figure}
+      \end{column}
+    \end{columns}
 
   \end{block}
 
-  \begin{alertblock}{Assessing Heating Models}
+  \begin{block}{Assessing Heating Models}
 
-    \begin{table}
-      \centering
-      \begin{tabular}{l r r c}
-        \toprule
-        \textbf{First column} & \textbf{Second column} & \textbf{Third column} & \textbf{Fourth} \\
-        \midrule
-        Foo & 13.37 & 384,394 & $\alpha$ \\
-        Bar & 2.17 & 1,392 & $\beta$ \\
-        Baz & 3.14 & 83,742 & $\delta$ \\
-        Qux & 7.59 & 974 & $\gamma$ \\
-        \bottomrule
-      \end{tabular}
-      \caption{A table caption.}
-    \end{table}
+    \begin{columns}[c]
+      \begin{column}{0.4\colwidth}
+        \begin{table}
+          \centering
+          \begin{tabular}{c c c c}
+            \toprule
+            \textbf{Run} & \textbf{Overdense?} & \textbf{Isothermal?} & \textbf{Flat?} \\
+            \midrule
+            1 & No & Yes &  Kinda? \\
+            2 & No & Yes & Kinda? \\
+            3 & No & No &  Yes \\
+            4 & Kinda? & Yes &  No \\
+            5 & No & Yes & No \\
+            \bottomrule
+          \end{tabular}
+        \end{table}    
+      \end{column}
+      \begin{column}{0.59\colwidth}
+        \begin{itemize}
+          \item All models show densities below \SI{1e9}{\per\cubic\cm} by $\ge2$
+          \item Run 4 (siphon flow with expansion) most promising, but velocities too high
+          \item Time-dependent solutions of $L\sim\SI{300}{\mega\m}$ that are sufficiently overdense are too broad in $T$ and hot
+        \end{itemize}
+      \end{column}
+    \end{columns}
 
-  \end{alertblock}
-
-  \begin{block}{Conclusions}
-    
   \end{block}
 
   \begin{block}{References}
     \scriptsize
+    WTB was supported by NASA's \textit{Hinode} program.
+    \textit{Hinode} is a Japanese mission developed and launched by ISAS/JAXA with NAOJ as a domestic partner and NASA and STFC (UK) as international partners.
+    It is operated by these agencies in cooperation with ESA and NSC (Norway).
     \begin{multicols}{2}
       \bibliographystyle{aasjournal.bst}
       \bibliography{references.bib}

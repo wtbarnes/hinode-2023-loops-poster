@@ -82,3 +82,26 @@ rule remove_background:
     script:
         "subtract_background.py"
 
+rule line_ratio_density_diagnostic:
+    input:
+        DATA_DIR / 'EIS' / 'loop_cutouts_no_background.nc'
+    output:
+        DATA_DIR / 'diagnostics' / 'line_ratio_density.nc'
+    script:
+        "density_diagnostic.py"
+
+rule time_lag_analysis:
+    input:
+        DATA_DIR / 'AIA' / 'loop_cutouts.nc'
+    output:
+        DATA_DIR / 'diagnostics' / 'time_lags.nc'
+    script:
+        "time_lag_analysis.py"
+
+rule filter_ratio_temperature_diagnostic:
+    input:
+        DATA_DIR / 'AIA' / 'loop_cutouts_no_background.nc'
+    output:
+        DATA_DIR / 'diagnostics' / 'filter_ratio_temperature.nc'
+    script:
+        "temperature_diagnostic.py"

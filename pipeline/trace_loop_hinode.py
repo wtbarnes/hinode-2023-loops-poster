@@ -1,6 +1,5 @@
 import pathlib
 
-import numpy as np
 import xarray
 import asdf
 import zarr
@@ -11,7 +10,6 @@ import sunpy.map
 import eispac.core
 
 from loop_selection import straight_loop_indices, interpolate_hpc_coord
-from stack_aia_data import AIA_SCALE
 
 PRESERVED_KEYS = [
     'instrume',
