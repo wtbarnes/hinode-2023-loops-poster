@@ -1,9 +1,10 @@
-axes.titlesize: 14
-axes.labelsize: 14
-legend.fontsize: 12
+figure.figsize: 14.88, 9.20
+axes.titlesize: 20
+axes.labelsize: 20
+legend.fontsize: 16
 legend.frameon: false
-xtick.labelsize: 12
-ytick.labelsize: 12
+xtick.labelsize: 16
+ytick.labelsize: 16
 xtick.major.pad: 3
 xtick.minor.pad: 3
 ytick.major.pad: 3
@@ -20,3 +21,4 @@ font.monospace:
 text.usetex: true
 pgf.rcfonts: false
 pgf.texsystem: lualatex
+savefig.format: pgf

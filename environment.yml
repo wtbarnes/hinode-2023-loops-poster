@@ -12,6 +12,7 @@ dependencies:
   - eispac
   - xrtpy
   - sunkit-image
+  - pfsspy[performance]
   - fiasco
   - demcmc
   - boto3
